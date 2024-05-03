@@ -31,6 +31,7 @@ public class LoginForm extends JFrame {
 
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0, 1, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
         formPanel.add(lbLoginForm);
         formPanel.add(lbEmail);
         formPanel.add(tfEmail);
@@ -79,6 +80,7 @@ public class LoginForm extends JFrame {
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 2, 10, 0));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
         buttonsPanel.add(btnLogin);
         buttonsPanel.add(btnCancel);
 
@@ -103,13 +105,13 @@ public class LoginForm extends JFrame {
     private User getAuthenticatedUser(String email, String password){
         User user = null;
 
-        final String DB_URL = "jdbc:mysql://localhost/myStore?serverTimezone=UTC";
+        final String DB_URL = "jdbc:mysql://localhost/mystore";
         final String USERNAME = "root";
         final String  PASSWORD = "root";
 
         try{
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-                String sql = "SELECT * FROM users WHERE email=? AND password=?";
+                String sql = "SELECT * FROM users WHERE email= ? AND password= ?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
@@ -118,7 +120,7 @@ public class LoginForm extends JFrame {
 
                 if(resultSet.next()){
                     user = new User();
-                    user.name = resultSet.getString("name");
+                    user.nome = resultSet.getString("nome");
                     user.email = resultSet.getString("email");
                     user.phone = resultSet.getString("phone");
                     user.address = resultSet.getString("address");
@@ -127,6 +129,7 @@ public class LoginForm extends JFrame {
 
                 preparedStatement.close();
                 conn.close();
+
             }catch(Exception e){
                 System.out.println("Database connection failed.");
             }
